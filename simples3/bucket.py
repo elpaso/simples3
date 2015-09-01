@@ -212,13 +212,13 @@ class S3Bucket(object):
                  base_url=None, timeout=None, secure=False):
         scheme = ("http", "https")[int(bool(secure))]
         if not base_url:
-            base_url = "%s://%s" % (scheme, amazon_s3_domain)
             if name:
-                base_url += "/%s" % aws_urlquote(name)
+                base_url = "%s://%s." % (scheme, aws_urlquote(name))
+            base_url += "%s" % (amazon_s3_domain)
         elif secure is not None:
             if not base_url.startswith(scheme + "://"):
                 raise ValueError("secure=%r, url must use %s"
-                                 % (secure, scheme))
+                                 % (secure, scheme))        
         self.opener = self.build_opener()
         self.name = name
         self.access_key = access_key
